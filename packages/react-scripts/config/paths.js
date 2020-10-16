@@ -29,6 +29,9 @@ const publicUrlOrPath = getPublicUrlOrPath(
   process.env.PUBLIC_URL
 );
 
+// kava labs addition
+const appBuildTarget = process.env.REACT_APP_BUILD_TARGET;
+
 const moduleFileExtensions = [
   'web.mjs',
   'mjs',
@@ -61,9 +64,9 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
+  appPublic: resolveApp(`public/${appBuildTarget}`),
+  appHtml: resolveApp(`public/${appBuildTarget}/index.html`),
+  appIndexJs: resolveModule(resolveApp, `src/${appBuildTarget}/index`),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
@@ -83,9 +86,9 @@ module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
   appBuild: resolveApp('build'),
-  appPublic: resolveApp('public'),
-  appHtml: resolveApp('public/index.html'),
-  appIndexJs: resolveModule(resolveApp, 'src/index'),
+  appPublic: resolveApp(`public/${appBuildTarget}`),
+  appHtml: resolveApp(`public/${appBuildTarget}/index.html`),
+  appIndexJs: resolveModule(resolveApp, `src/${appBuildTarget}/index`),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
   appTsConfig: resolveApp('tsconfig.json'),
@@ -118,9 +121,9 @@ if (
     dotenv: resolveOwn(`${templatePath}/.env`),
     appPath: resolveApp('.'),
     appBuild: resolveOwn('../../build'),
-    appPublic: resolveOwn(`${templatePath}/public`),
-    appHtml: resolveOwn(`${templatePath}/public/index.html`),
-    appIndexJs: resolveModule(resolveOwn, `${templatePath}/src/index`),
+    appPublic: resolveOwn(`${templatePath}/public/${appBuildTarget}`),
+    appHtml: resolveOwn(`${templatePath}/${appBuildTarget}/index.html`),
+    appIndexJs: resolveModule(resolveOwn, `${templatePath}/src/${appBuildTarget}/index`),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn(`${templatePath}/src`),
     appTsConfig: resolveOwn(`${templatePath}/tsconfig.json`),
