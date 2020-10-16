@@ -8,6 +8,15 @@
 
 const path = require('path');
 
+const hasJsxRuntime = (() => {
+  try {
+    require.resolve('react/jsx-runtime.js');
+    return true;
+  } catch (e) {
+    return false;
+  }
+})();
+
 const validateBoolOption = (name, value, defaultValue) => {
   if (typeof value === 'undefined') {
     value = defaultValue;
@@ -20,7 +29,7 @@ const validateBoolOption = (name, value, defaultValue) => {
   return value;
 };
 
-module.exports = function(api, opts, env) {
+module.exports = function (api, opts, env) {
   if (!opts) {
     opts = {};
   }
@@ -82,10 +91,7 @@ module.exports = function(api, opts, env) {
           // Allow importing core-js in entrypoint and use browserlist to select polyfills
           useBuiltIns: 'entry',
           // Set the corejs version we are using to avoid warnings in console
-          // This will need to change once we upgrade to corejs@3
           corejs: 3,
-          // Do not transform modules to CJS
-          modules: false,
           // Exclude transforms that make all code slower
           exclude: ['transform-typeof-symbol'],
         },
@@ -98,7 +104,8 @@ module.exports = function(api, opts, env) {
           development: isEnvDevelopment || isEnvTest,
           // Will use the native built-in instead of trying to polyfill
           // behavior for any plugins that require one.
-          useBuiltIns: true,
+          ...(!hasJsxRuntime ? { useBuiltIns: true } : {}),
+          runtime: hasJsxRuntime ? 'automatic' : 'classic',
         },
       ],
       isTypeScriptEnabled && [require('@babel/preset-typescript').default],
